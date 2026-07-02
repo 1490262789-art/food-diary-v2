@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="background-color:#fff!important;color:#111!important">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="light">
+<meta name="theme-color" content="#ffffff">
+<title>饮食日记</title>
+<style>
+html,body{background-color:#fff!important;color:#111!important}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font:16px -apple-system,'PingFang SC',sans-serif;line-height:1.8;max-width:600px;margin:0 auto;padding:28px 18px 80px;-webkit-tap-highlight-color:transparent}
+h1{font-size:1.3em;font-weight:600;margin-bottom:32px;color:#111!important;background:#fff!important}
+.rw{display:flex;gap:12px;align-items:center;margin-bottom:18px}
+.rw label{font-size:.9em;color:#444!important;white-space:nowrap;min-width:38px;background:#fff!important}
+.rw input,.rw textarea,.rw select{flex:1;border:none;border-bottom:1.5px solid #bbb;padding:10px 0;font-size:1em;outline:none;background:#fff!important;color:#111!important;border-radius:0;-webkit-appearance:none;appearance:none;resize:none}
+.rw input::placeholder,.rw textarea::placeholder{color:#aaa!important}
+.rw input:focus,.rw textarea:focus,.rw select:focus{border-bottom:2px solid #111}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+.btn{border:1.5px solid #111;background:#fff!important;color:#111!important;padding:12px 22px;font-size:.9em;cursor:pointer;-webkit-appearance:none;appearance:none}
+.btn:active{background:#eee!important}
+.btn-save{display:block;width:100%;background:#111!important;color:#fff!important;border:none;padding:15px;font-size:1em;margin-top:10px;font-weight:500}
+.btn-save:active{background:#333!important}
+.pic{border:1.5px dashed #aaa;padding:16px;text-align:center;cursor:pointer;font-size:.9em;color:#666!important;background:#fafafa!important;margin:4px 0}
+.pic:active{background:#eee!important}
+.thumbs{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.thumbs img{width:56px;height:56px;object-fit:cover}
+.thumbs .w{position:relative}
+.thumbs .x{position:absolute;top:-9px;right:-9px;background:#111!important;color:#fff!important;border:none;width:20px;height:20px;font-size:.6em;border-radius:50%;cursor:pointer;line-height:20px;text-align:center}
+.mdl{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.94);z-index:999;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.mdl img{max-width:95%;max-height:90%}
+.bar{display:flex;gap:10px;align-items:center;margin:28px 0 14px;flex-wrap:wrap}
+.bar input[type=date]{background:#fff!important;color:#111!important;border:1.5px solid #bbb;padding:7px 10px;font-size:.85em;outline:none}
+.bar a{font-size:.85em;color:#555!important;cursor:pointer;text-decoration:underline;background:#fff!important}
+table{width:100%;border-collapse:collapse;font-size:.82em}
+th{text-align:left;padding:10px 8px;border-bottom:1.5px solid #ccc;color:#777!important;font-weight:400;font-size:.78em;white-space:nowrap;background:#fff!important}
+td{padding:10px 8px;border-bottom:1px solid #eee;vertical-align:top;background:#fff!important;color:#111!important}
+tr:hover td{background:#fafafa!important}
+.ti{width:34px;height:34px;object-fit:cover;cursor:pointer}
+.bdg{display:inline-block;border:1.5px solid #ccc;padding:2px 8px;font-size:.8em;color:#555!important;background:#fff!important}
+.empty{text-align:center;padding:40px;color:#aaa!important;font-size:.85em;background:#fff!important}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#111!important;color:#fff!important;padding:12px 28px;font-size:.85em;z-index:998;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.on{opacity:1}
+.spin{display:inline-block;width:14px;height:14px;border:1.5px solid #ddd;border-top-color:#111;border-radius:50%;animation:s .6s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes s{to{transform:rotate(360deg)}}
+@media(max-width:420px){.g2{grid-template-columns:1fr}}
+</style></head>
+<body>
+
+<h1>饮食日记</h1>
+
+<div class="rw"><label>名字</label><input id="un" placeholder="你的名字" maxlength="10" autocomplete="off"></div>
+<div class="rw"><label>日期</label><input type="date" id="dt"></div>
+
+<div class="g2">
+  <div class="rw"><label>早餐</label><input id="bf" placeholder="吃了什么" autocomplete="off"></div>
+  <div class="rw"><label>午餐</label><input id="lu" placeholder="吃了什么" autocomplete="off"></div>
+  <div class="rw"><label>晚餐</label><input id="dn" placeholder="吃了什么" autocomplete="off"></div>
+  <div class="rw"><label>加餐</label><input id="sn" placeholder="零食/饮品" autocomplete="off"></div>
+</div>
+
+<div class="g2">
+  <div class="rw"><label>饮水</label><input id="wt" placeholder="1500ml" autocomplete="off"></div>
+  <div class="rw"><label>标签</label><select id="tg"><option value="">-</option><option>家常菜</option><option>外卖</option><option>甜品</option><option>重油重辣</option><option>清淡减脂</option><option>其他</option></select></div>
+</div>
+
+<div class="rw"><label>备注</label><input id="mo" placeholder="想说的话" autocomplete="off"></div>
+
+<div class="pic" onclick="document.getElementById('pi').click()">＋ 拍照 / 选择照片</div>
+<input type="file" id="pi" accept="image/*" capture="environment" multiple onchange="hp(this)" style="display:none">
+<div class="thumbs" id="pv"></div>
+
+<button class="btn btn-save" id="sb" onclick="sm()">保存</button>
+
+<div style="margin-top:36px">
+  <div class="bar">
+    <input type="date" id="fd" onchange="af()">
+    <a onclick="cf()">清除筛选</a>
+    <a onclick="ex()">导出CSV</a>
+    <span style="margin-left:auto;font-size:.8em;color:#aaa!important" id="rc"></span>
+  </div>
+  <div id="ld"><span class="spin"></span>加载中</div>
+  <div style="overflow-x:auto" id="tw" hidden>
+    <table><thead><tr><th>日期</th><th>名字</th><th>照片</th><th>早餐</th><th>午餐</th><th>晚餐</th><th>加餐</th><th>饮水</th><th>标签</th><th>备注</th><th></th></tr></thead><tbody id="tb"></tbody></table>
+  </div>
+  <div class="empty" id="em" hidden>暂无记录</div>
+</div>
+
+<div class="toast" id="ts"></div>
+<div class="mdl" id="md" hidden onclick="this.hidden=true"><img id="mi"></div>
+
+<script>
+(function forceLight(){
+  var bg='#fff',fg='#111',el=[document.documentElement,document.body];
+  el.forEach(function(e){e.style.setProperty('background-color',bg,'important');e.style.setProperty('color',fg,'important')});
+  setTimeout(function(){
+    document.querySelectorAll('*').forEach(function(e){
+      var cs=getComputedStyle(e);
+      if(cs.backgroundColor!=='rgba(0, 0, 0, 0)'&&cs.backgroundColor!=='rgb(255, 255, 255)')e.style.setProperty('background-color',bg,'important');
+      if(cs.color!=='rgb(17, 17, 17)')e.style.setProperty('color',fg,'important');
+    });
+  },500);
+})();
+
+const K='$2a$10$LaFzu8ik4tTzNy35YLBF1OcoTogoIbWJUQ4/SpkQ.0M3UUhjGeyRO';
+const B='6a453823f5f4af5e294e5db2';
+const A='https://api.jsonbin.io/v3/b/'+B;
+const H={'X-Master-Key':K,'Content-Type':'application/json'};
+let R=[],F='',P=[];
+const $=id=>document.getElementById(id);
+
+$('dt').valueAsDate=new Date();
+$('un').value=localStorage.getItem('fdn')||'';
+$('un').oninput=function(){localStorage.setItem('fdn',$('un').value.trim())};
+fetchRecords();
+
+let tt;
+function toast(m){var t=$('ts');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('on')},2000)}
+
+function hp(inp){
+  var fs=Array.from(inp.files);if(!fs.length)return;
+  if(P.length+fs.length>5){toast('最多5张');inp.value='';return}
+  var done=0;toast('压缩中');
+  fs.forEach(function(f){
+    var r=new FileReader();
+    r.onload=function(e){
+      var im=new Image();
+      im.onload=function(){
+        var c=document.createElement('canvas'),mx=400,w=im.width,h=im.height;
+        if(w>mx||h>mx){if(w>h){h=h*mx/w;w=mx}else{w=w*mx/h;h=mx}}
+        c.width=w;c.height=h;
+        c.getContext('2d').drawImage(im,0,0,w,h);
+        P.push(c.toDataURL('image/jpeg',0.6));
+        done++;if(done===fs.length){renderThumbs();toast('已压缩')}
+      };
+      im.src=e.target.result
+    };
+    r.readAsDataURL(f)
+  });
+  inp.value=''
+}
+
+function renderThumbs(){
+  $('pv').innerHTML=P.map(function(p,i){
+    return'<div class="w"><img src="'+p+'" onclick="event.stopPropagation();zoom(\''+p+'\')"><button class="x" onclick="event.stopPropagation();removePic('+i+')">×</button></div>'
+  }).join('')
+}
+
+function removePic(i){P.splice(i,1);renderThumbs()}
+function zoom(s){$('mi').src=s;$('md').hidden=false}
+
+async function fetchRecords(){
+  $('ld').hidden=false;$('tw').hidden=true;$('em').hidden=true;
+  try{var r=await fetch(A+'/latest',{headers:H});if(!r.ok)throw 0;var j=await r.json();R=(j.record&&j.record.records)?j.record.records:[]}catch(e){R=[]}
+  renderTable()
+}
+
+async function sm(){
+  var n=$('un').value.trim();if(!n){toast('请输入名字');return}
+  var o={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),date:$('dt').value,name:n,breakfast:$('bf').value.trim(),lunch:$('lu').value.trim(),dinner:$('dn').value.trim(),snacks:$('sn').value.trim(),water:$('wt').value.trim(),tag:$('tg').value,mood:$('mo').value.trim(),photos:P.slice(),createdAt:new Date().toISOString()};
+  if(!o.date){toast('请选择日期');return}
+  if(!o.breakfast&&!o.lunch&&!o.dinner&&!o.snacks&&!o.photos.length){toast('至少填一项');return}
+  $('sb').disabled=true;$('sb').textContent='保存中';
+  try{
+    var r=await fetch(A+'/latest',{headers:H});
+    var d=r.ok?(await r.json()).record:{records:[]};
+    if(Array.isArray(d))d={records:d};
+    if(!d||!d.records)d={records:[]};
+    d.records.push(o);
+    var p=await fetch(A,{method:'PUT',headers:H,body:JSON.stringify(d)});
+    if(!p.ok)throw 0;
+    R.push(o);
+    ['bf','lu','dn','sn','wt','mo'].forEach(function(id){$(id).value=''});
+    $('tg').value='';P=[];$('pv').innerHTML='';
+    renderTable();toast('已保存')
+  }catch(e){toast('保存失败')}
+  $('sb').disabled=false;$('sb').textContent='保存'
+}
+
+function renderTable(){
+  $('ld').hidden=true;
+  var rs=R.slice();if(F)rs=rs.filter(function(r){return r.date===F});
+  rs.sort(function(a,b){
+    if(b.date!==a.date)return b.date.localeCompare(a.date);
+    return(b.createdAt||'').localeCompare(a.createdAt||'')
+  });
+  $('rc').textContent=rs.length+' 条';
+  if(!rs.length){$('tw').hidden=true;$('em').hidden=false;return}
+  $('em').hidden=true;$('tw').hidden=false;
+  var cn=$('un').value.trim();
+  $('tb').innerHTML=rs.map(function(r){
+    var d=r.name===cn;
+    var ph=r.photos&&r.photos.length?r.photos.map(function(p){return'<img class="ti" src="'+esc(p)+'" onclick="event.stopPropagation();zoom(\''+esc(p)+'\')">'}).join(''):'-';
+    var t=r.tag?'<span class="bdg">'+esc(r.tag)+'</span>':'';
+    var tm=r.createdAt?new Date(r.createdAt).toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'}):'';
+    return'<tr><td nowrap>'+r.date+'<br><small style=color:#aaa>'+tm+'</small></td><td nowrap>'+esc(r.name)+'</td><td>'+ph+'</td><td>'+esc(r.breakfast||'-')+'</td><td>'+esc(r.lunch||'-')+'</td><td>'+esc(r.dinner||'-')+'</td><td>'+esc(r.snacks||'-')+'</td><td nowrap>'+esc(r.water||'-')+'</td><td nowrap>'+t+'</td><td style=max-width:100px>'+esc(r.mood||'-')+'</td><td>'+(
+      d?'<button onclick="del(\''+r.id+'\')" style="background:none;border:none;cursor:pointer;color:#aaa;font-size:1.2em">&times;</button>':''
+    )+'</td></tr>'
+  }).join('')
+}
+
+async function del(id){if(!confirm('删除这条记录？'))return;try{var r=await fetch(A+'/latest',{headers:H});if(!r.ok)throw 0;var j=await r.json();var d=j.record;if(Array.isArray(d))d={records:d};if(!d||!d.records)d={records:[]};d.records=d.records.filter(function(x){return x.id!==id});var p=await fetch(A,{method:'PUT',headers:H,body:JSON.stringify(d)});if(!p.ok)throw 0;R=R.filter(function(x){return x.id!==id});renderTable();toast('已删除')}catch(e){toast('删除失败')}}
+
+function af(){F=$('fd').value;renderTable()}
+function cf(){$('fd').value='';F='';renderTable()}
+function ex(){
+  var rs=[['日期','名字','早餐','午餐','晚餐','加餐','饮水','标签','备注','照片','时间']];
+  R.sort(function(a,b){return(b.createdAt||'').localeCompare(a.createdAt||'')});
+  R.forEach(function(r){rs.push([r.date,r.name,r.breakfast||'',r.lunch||'',r.dinner||'',r.snacks||'',r.water||'',r.tag||'',r.mood||'',(r.photos?r.photos.length:0)+'张',r.createdAt?new Date(r.createdAt).toLocaleString('zh-CN'):''])});
+  var csv=rs.map(function(r){return r.map(function(c){return'"'+String(c).replace(/"/g,'""')+'"'}).join(',')}).join('\n');
+  var b=new Blob(['\uFEFF'+csv],{type:'text/csv'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='饮食记录.csv';a.click();URL.revokeObjectURL(u)
+}
+
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+</script>
+</body>
+</html>
